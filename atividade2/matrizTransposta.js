@@ -29,3 +29,4 @@ imprimirMatrizOriginal(matriz);
 
 console.log("Imprimindo a matriz transposta: ");
 imprimirMatrizTransposta(matriz);
+
