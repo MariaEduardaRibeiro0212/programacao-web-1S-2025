@@ -1,8 +1,8 @@
 let itens = [];
 
 function adicionar(item){
-    let item_valido = validar_item_a_cadstrar(item);
-
+    let item_valido = validar_item_a_cadastrar(item);
+    
     if(item_valido){
         itens.push(item);
     }
@@ -14,33 +14,49 @@ function listar(){
     return itens;
 }
 
-function editar (id, qtd){
+function editar(id, qtd){
     if(
-        !is_numerico(id) ||
+        !is_numerico(id) || 
         !is_id_cadastrado(id) ||
         !is_numerico(qtd) ||
-        qtd > 0
-
+        qtd < 0
     ){
         return false;
     }
-    itens.forEach(item_cadastrado =>{
+    itens.forEach(item_cadastrado => {
         if(item_cadastrado.id == id){
-            item_cadastrado.qtd == qtd;
+            item_cadastrado.qtd = qtd;
         }
     });
-
     return true;
 }
 
+function remover(id){
+    if(
+        !is_numerico(id) ||
+        !is_id_cadastrado(id)
+    ){
+        return false;
+    }
+    const del = itens.findIndex(item => item.id === id);
+
+    if(del !== -1){
+        itens.splice(del, 1);
+        return true;
+    } else{
+        return false;
+    }
+}
+
 module.exports = {
-    adicionar, 
+    adicionar,
     listar,
-    editar
+    editar,
+    remover
 }
 
 function is_numerico(n){
-    if(isNaN(n) || n == null ){
+    if(isNaN(n) || n == null){
         return false;
     }
     return true;
@@ -48,27 +64,26 @@ function is_numerico(n){
 
 function is_id_cadastrado(id){
     let item_existente = false;
-    itens.forEach(item_cadstrado => {
-        if(id == item_cadstrado.id){
+    itens.forEach(item_cadastrado => {
+        if(id == item_cadastrado.id){
             item_existente = true;
         }
     });
-
     return item_existente;
 }
 
-function validar_item_a_cadstrar(item){
+function validar_item_a_cadastrar(item){
     let item_valido = true;
     if(!is_numerico(item.id) || item.id <= 0){
         item_valido = false;
     }
 
     if(is_id_cadastrado(item.id)){
-        item_valido = false;
+        item_valido = false; 
     }
 
     if(item.nome.length == 0){
-        item_valido = false;
+        item_valido = false; 
     }
 
     if(!is_numerico(item.qtd) || item.qtd < 0){

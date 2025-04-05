@@ -27,7 +27,9 @@ app.get(`/listar`, (req, res) =>{
 });
 
 app.get(`/remover/:id`, (req, res) =>{
-    
+    let id = Number(req.params.id);
+
+    res.send(estoque.remover(id))
 });
 
 app.get(`/editar/:id/:qtd`, (req, res) =>{
