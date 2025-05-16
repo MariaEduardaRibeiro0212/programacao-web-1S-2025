@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento</title>
+    <title>Agendamento de consulta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
@@ -12,103 +12,114 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center p-3 mt-1">
+            <div class="col-12 mt-3 text-center">
                 <h1>Agendamento</h1>
+
+                {{#erro_form}}
+                <div class="alert alert-warning mt-2">
+                  <strong>Formulário</strong> inválido!Preencha todos os campos.
+                </div>
+                {{/erro_form}}
+
+                {{#campos_invalidos}}
+                <div class="alert alert-warning mt-2">
+                  <strong>{{.}}</strong> inválido!Não pode ser vazio.
+                </div>
+                {{/campos_invalidos}}
+
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12 p-3 mt-1">
-                <h2>Dados do paciente</h2>
-            </div>
-        </div>
+            <form class="row g-3" action= "/agendar_consulta" method="POST">
 
-        <div class="form_paciente">
-            <form class="row g-3">
-                <div class="col-md-6">
-                  <label for="inputNome4" class="form-label">Nome</label>
-                  <input type="text" class="form-control" id="inputNome4" placeholder="text">
-                </div>
+              <div class="row mt-3">               
+                    <h3>Dados do paciente</h3>  
+                    
+                    <div class="col-6 mt-1" >
+                      <label for="nome" class="form-label">Nome:</label>
+                      <input type="text" class="form-control" name="nome" id="nome" value="{{dados_consulta.nome}}">
+                    </div>
 
-                <div class="col-md-6">
-                  <label for="inputSobrenome4" class="form-label">Sobrenome</label>
-                  <input type="text" class="form-control" id="inputSobrenome4" placeholder="text">
-                </div>
+                    <div class="col-6 mt-1">
+                      <label for="sobrenome" class="form-label">Sobrenome:</label>
+                      <input type="text" class="form-control" name="sobrenome" id="sobrenome" value="{{dados_consulta.sobrenome}}">
+                    </div>
 
-                <div class="col-md-6">
-                  <label for="inputCPF4" class="form-label">CPF</label>
-                  <input type="text" class="form-control" id="inputCPF4" placeholder="text">
-                </div>
+                    <div class="col-6 mt-1">
+                      <label for="cpf" class="form-label">CPF:</label>
+                      <input type="text" class="form-control" name="cpf" id="cpf" value="{{dados_consulta.cpf}}">
+                    </div>
 
-                <div class="col-md-6">
-                  <label for="inputDatanasc4" class="form-label">Data de Nascimento</label>
-                  <input type="date" class="form-control" id="inputDatanasc4">
-                </div>
+                    <div class="col-6 mt-1">
+                      <label for="data_nascimento" class="form-label">Data de Nascimento:</label>
+                      <input type="date" class="form-control" name="data_nascimento" id="data_nascimento">
+                    </div>
 
-                <div class="col-md-6">
-                  <label for="inputTelefone4" class="form-label">Telefone</label>
-                  <input type="text" class="form-control" id="inputTelefone4" placeholder="text">
-                </div>
+                    <div class="col-6 mt-1">
+                      <label for="telefone" class="form-label">Telefone:</label>
+                      <input type="text" class="form-control" name="telefone" id="telefone">
+                    </div>
 
-                <div class="col-md-6">
-                  <label for="inputCEP4" class="form-label">CEP</label>
-                  <input type="text" class="form-control" id="inputCEP4" placeholder="text">
-                </div>
+                    <div class="col-6 mt-1">
+                      <label for="cep" class="form-label">CEP</label>
+                      <input type="text" class="form-control" name="cep" id="cep">
+                    </div>
 
+                    <div class="col-12 mt-1">
+                      <label for="endereco" class="form-label">Endereço:</label>
+                      <input type="text" class="form-control" name="endereco" id="endereco">
+                    </div>
 
-                <div class="col-12">
-                  <label for="inputEndereco" class="form-label">Endereço</label>
-                  <input type="text" class="form-control" id="inputEndereco" placeholder="text">
-                </div>
+                  </div>
 
-                <div class="col-12 mt-4">
-                  <h2>Dados Consulta</h2>
-                </div>
-                
-                <div class="col-md-6">
-                  <label for="inputClinica" class="form-label">Clínica</label>
-                  <select id="inputClinica" class="form-select">
-                    <option selected>Selecione</option>
-                    <option>Clínica UCB</option>
-                    <option>Clínica Católica</option>
-                    <option>Clínica Brasília</option>
-                  </select>
-                </div>
+                    <div class="row mt-3">
+                      <h3>Dados Consulta</h3>
 
-                <div class="col-md-6">
-                  <label for="inputEspecialidade" class="form-label">Especialidade</label>
-                  <select id="inputEspecialidade" class="form-select">
-                    <option selected>Selecione</option>
-                    <option>Dermatologista</option>
-                    <option>Cardiologista</option>
-                    <option>Clínico Geral</option>
-                  </select>
-                </div>
+                      <div class="col-6 mt-1">
+                        <label for="clinica" class="form-label">Clínica:</label>
+                        <select name="clinica" id="clinica" class="form-select">
+                          <option selected>Selecione</option>
+                          <option>Clínica Brasília</option>
+                          <option>Clínica Taguatinga</option>
+                          <option>Clínica Ceilândia</option>
+                        </select>
+                      </div>
 
-                <div class="col-md-6">
-                  <label for="inputDataC4" class="form-label">Data</label>
-                  <input type="date" class="form-control" id="inputDataC4">
-                </div>
+                      <div class="col-6 mt-1">
+                        <label for="especialidade" class="form-label">Especialidade::</label>
+                        <select name="especialidade" id="especialidade" class="form-select">
+                          <option selected>Selecione</option>
+                          <option>Ortopedia</option>
+                          <option>Cardiologia</option>
+                          <option>Pediatria</option>
+                        </select>
+                      </div>
 
-                <div class="col-md-6">
-                  <label for="inputHora4" class="form-label">Hora</label>
-                  <input type="time" class="form-control" id="inputHora4" placeholder="text">
-                </div>
+                      
+                      <div class="col-md-6">
+                        <label for="data_consulta" class="form-label">Data da Consulta:</label>
+                        <input type="date" class="form-control" name="data_consulta" id="data_consulta">
+                      </div>
 
-                <div class="mb-12">
-                  <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
+                      <div class="col-md-6">
+                        <label for="hora_consulta" class="form-label">Hora da Consulta:</label>
+                        <input type="time" class="form-control" name="hora_consulta" id="hora_consulta">
+                     </div>
 
-                <div class="col-12 p-3 mt-3">
-                  <button type="submit" class="btn btn-secondary col-12" placeholder="text">Enviar</button>
-                </div>
-                
+                    <div class="col-12 mt-1">
+                      <label for="observacao" class="form-label">Observação:</label>
+                       <textarea class="form-control" id="observacao" rows="3"></textarea>
+                    </div>
+
+                    </div>
+            
+                    <div class="row mt-3 mb-3">
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-secondary w-100">Enviar</button>
+                      </div>
+                    </div>           
                 
               </form>
-        </div>
-        
-
     </div>
     
 </body>
