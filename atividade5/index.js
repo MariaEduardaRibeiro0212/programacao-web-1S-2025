@@ -16,6 +16,7 @@ app.post('/agendar_consulta', (req, res)=>{
     let erro_form = false;
     let campos_invalidos = []
     let dataProcessamento = new Date();
+    let data_invalida = false;
 
     if(dados_consulta.nome.length == 0){
         erro_form = true;
@@ -49,23 +50,24 @@ app.post('/agendar_consulta', (req, res)=>{
         campos_invalidos.push("Enderço");
     }
 
-    if(dados_consulta.clinica.length == 0){
+    if(!dados_consulta.clinica || dados_consulta.clinica === ""){
         erro_form = true;
         campos_invalidos.push("Clínica");
     }
 
-    if(dados_consulta.especialidade.length == 0){
+    if(!dados_consulta.especialidade || dados_consulta.especialidade === ""){
         erro_form = true;
         campos_invalidos.push("Especialidade");
     }
 
-    if(dados_consulta.data_consulta.length == 0){
+    if(!dados_consulta.data_consulta || dados_consulta.data_consulta.length == 0){
         erro_form = true;
         campos_invalidos.push("Data da Consulta")
 
-    } else if(dados_consulta.data_consulta < dataProcessamento){
+    } 
+    if(dados_consulta.data_consulta && new Date(dados_consulta.data_consulta) < dataProcessamento){
         erro_form = true;
-        campos_invalidos.push("Data da Consulta");
+        data_invalida = true;
     }
 
     if(dados_consulta.hora_consulta.length == 0){
@@ -74,7 +76,7 @@ app.post('/agendar_consulta', (req, res)=>{
     }
 
 
-    res.render('index.html', {erro_form, campos_invalidos});
+    res.render('index.html', {erro_form, campos_invalidos, data_invalida});
 });
 
 
